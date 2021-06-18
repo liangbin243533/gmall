@@ -17,3 +17,22 @@ mybatis-plus:
     db-config:
       id-type: auto
   mapper-locations: classpath:mapper/sms/**/*.xml
+
+seata:
+  enabled: true
+  application-id: sms-service
+  tx-service-group: my_test_tx_group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+    grouplist:
+      default: 127.0.0.1:8091
+    enable-degrade: false
+    disable-global-transaction: false
+  registry:
+    type: file
+    file:
+      name: file.conf
+  log:
+    exception-rate: 100

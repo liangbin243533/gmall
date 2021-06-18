@@ -7,6 +7,7 @@ import java.util.Map;
 import com.atguigu.core.bean.PageVo;
 import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.core.bean.Resp;
+import com.atguigu.gmall.sms.api.vo.SkuSaleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import com.atguigu.gmall.sms.service.SkuBoundsService;
  *
  * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2021-06-11 17:38:15
+ * @date 2021-06-18 01:11:13
  */
 @Api(tags = "商品sku积分设置 管理")
 @RestController
@@ -32,6 +33,12 @@ import com.atguigu.gmall.sms.service.SkuBoundsService;
 public class SkuBoundsController {
     @Autowired
     private SkuBoundsService skuBoundsService;
+
+    @PostMapping("sku/sale/save")
+    public Resp<Object> saveSale(@RequestBody SkuSaleVO skuSaleVO){
+        this.skuBoundsService.saveSale(skuSaleVO);
+        return Resp.ok(null);
+    }
 
     /**
      * 列表

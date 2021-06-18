@@ -24,7 +24,7 @@ import com.atguigu.gmall.sms.service.HomeSubjectService;
  *
  * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2021-06-11 17:38:15
+ * @date 2021-06-18 01:11:13
  */
 @Api(tags = "首页专题表【jd首页下面很多专题，每个专题链接新的页面，展示专题商品信息】 管理")
 @RestController

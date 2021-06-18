@@ -5,6 +5,9 @@ spring:
     nacos:
       config:
         server-addr: 127.0.0.1:8848
-        namespace: 53a24d36-7a63-4300-9aea-c15664976c53
-        group: dev
+        namespace: public
+        group: SEATA_GROUP
         file-extension: yml
+    alibaba:
+      seata:
+        tx-service-group: pms-service

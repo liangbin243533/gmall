@@ -11,7 +11,7 @@ import com.atguigu.core.bean.QueryCondition;
  *
  * @author lixianfeng
  * @email lxf@atguigu.com
- * @date 2021-06-11 17:38:15
+ * @date 2021-06-18 01:11:13
  */
 public interface HomeAdvService extends IService<HomeAdvEntity> {
 
