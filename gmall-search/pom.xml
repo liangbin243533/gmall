@@ -8,21 +8,31 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.atguigu</groupId>
-    <artifactId>gmall-wms</artifactId>
+    <groupId>com.aguigu</groupId>
+    <artifactId>gmall-search</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gmall-wms</name>
-    <description>Gmall repository management system</description>
+    <name>gmall-search</name>
+    <description>Gmall searching system</description>
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR11</spring-cloud.version>
-        <mysql.version>5.1.46</mysql.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>gmall-core</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>gmall-pms-interface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.atguigu</groupId>
@@ -31,11 +41,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,6 +55,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,11 +71,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <dependencyManagement>

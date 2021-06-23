@@ -97,7 +97,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         //pms_sku_info
         saveSkuAndSale(spuInfoVO, spuId);
-        int i = 1/0;
     }
 
     private void saveSkuAndSale(SpuInfoVO spuInfoVO, Long spuId) {

@@ -1,6 +1,7 @@
 package com.atguigu.gmall.pms.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,11 +35,20 @@ public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
+
     @GetMapping
     public Resp<PageVo> querySpuPage(QueryCondition queryCondition, @RequestParam("catId")Long cid) {
         PageVo page = spuInfoService.querySpuPage(queryCondition, cid);
         return Resp.ok(page);
     }
+
+    @PostMapping("page")
+    public Resp<List<SpuInfoEntity>> querySpusByPage(@RequestBody QueryCondition queryCondition) {
+        PageVo page = spuInfoService.queryPage(queryCondition);
+        List<SpuInfoEntity> list = (List<SpuInfoEntity>) page.getList();
+        return Resp.ok(list);
+    }
+
 
     /**
      * 列表
