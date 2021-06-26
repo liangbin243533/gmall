@@ -10,3 +10,8 @@ spring:
       uris: http://47.119.201.65:9200
   jackson:
     default-property-inclusion: non_null
+  rabbitmq:
+    host: 47.119.201.65
+    virtual-host: /Liangbin Chen
+    username: Liangbin Chen
+    password: 243533Clb
