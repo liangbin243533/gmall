@@ -5,6 +5,7 @@ import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.core.bean.Resp;
 import com.atguigu.gmall.pms.entity.*;
 import com.atguigu.gmall.pms.vo.CategoryVO;
+import com.atguigu.gmall.pms.vo.ItemGroupVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,20 @@ public interface GmallPmsApi {
     @PostMapping("pms/spuinfo/page")
     public Resp<List<SpuInfoEntity>> querySpusByPage(@RequestBody QueryCondition queryCondition);
 
-    @GetMapping("/pms/spuinfo/info/{id}")
+    @GetMapping("pms/spuinfo/info/{id}")
     public Resp<SpuInfoEntity> querySpuById(@PathVariable("id") Long id);
+
+    @GetMapping("pms/skuimages/{skuId}")
+    public Resp<List<SkuImagesEntity>> querySkuImagesBySkuId(@PathVariable("skuId") Long skuId);
+
+    @GetMapping("pms/skusaleattrvalue/{spuId}")
+    public Resp<List<SkuSaleAttrValueEntity>> querySkuSaleAttrValuesBySpuId(@PathVariable("spuId")Long spuId);
 
     @GetMapping("pms/skuinfo/{spuId}")
     public Resp<List<SkuInfoEntity>> querySkusBySpuId(@PathVariable("spuId")Long spuId);
+
+    @GetMapping("pms/skuinfo/info/{skuId}")
+    public Resp<SkuInfoEntity> querySkuById(@PathVariable("skuId") Long skuId);
 
     @GetMapping("pms/brand/info/{brandId}")
     public Resp<BrandEntity> queryBrandById(@PathVariable("brandId") Long brandId);
@@ -37,4 +47,11 @@ public interface GmallPmsApi {
 
     @GetMapping("pms/productattrvalue/{spuId}")
     public Resp<List<ProductAttrValueEntity>> querySearchAttrValueBySpuId(@PathVariable("spuId")Long spuId);
+
+    @GetMapping("pms/spuinfodesc/info/{spuId}")
+    public Resp<SpuInfoDescEntity> querySpuDescBySpuId(@PathVariable("spuId") Long spuId);
+
+    @GetMapping("pms/attrgroup/item/group/{cid}/{spuId}")
+    public Resp<List<ItemGroupVO>> queryItemGroupVOByCidAndSpuId(@PathVariable("cid")Long cid,
+                                                                 @PathVariable("spuId")Long spuId);
 }

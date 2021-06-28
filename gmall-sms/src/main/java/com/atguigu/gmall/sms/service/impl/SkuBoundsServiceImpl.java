@@ -1,13 +1,19 @@
 package com.atguigu.gmall.sms.service.impl;
 
+import com.atguigu.gmall.sms.api.vo.SaleVO;
 import com.atguigu.gmall.sms.api.vo.SkuSaleVO;
 import com.atguigu.gmall.sms.dao.SkuFullReductionDao;
 import com.atguigu.gmall.sms.dao.SkuLadderDao;
 import com.atguigu.gmall.sms.entity.SkuFullReductionEntity;
 import com.atguigu.gmall.sms.entity.SkuLadderEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.security.PrivateKey;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -69,6 +75,57 @@ public class SkuBoundsServiceImpl extends ServiceImpl<SkuBoundsDao, SkuBoundsEnt
         reductionEntity.setReducePrice(skuSaleVO.getReducePrice());
         reductionEntity.setAddOther(skuSaleVO.getFullAddOther());
         this.skuFullReductionDao.insert(reductionEntity);
+    }
+
+    @Override
+    public List<SaleVO> querySalesBySkuId(Long skuId) {
+
+
+
+        //Query bounds info
+        SkuBoundsEntity skuBoundsEntity = this.getOne(new QueryWrapper<SkuBoundsEntity>().eq("sku_id", skuId));
+        List<SaleVO> saleVOS = new ArrayList<>();
+
+        if (skuBoundsEntity != null) {
+            SaleVO boundsVO = new SaleVO();
+            boundsVO.setType("Bounds");
+            StringBuilder sb = new StringBuilder();
+            if (skuBoundsEntity.getGrowBounds() != null && skuBoundsEntity.getGrowBounds().intValue() > 0) {
+                sb.append("Growing bounds" + skuBoundsEntity.getGrowBounds());
+            }
+            if (skuBoundsEntity.getBuyBounds() != null && skuBoundsEntity.getBuyBounds().intValue() > 0) {
+                if (StringUtils.isNotBlank(sb)) {
+                    sb.append(",");
+                }
+                sb.append("Buying bounds" + skuBoundsEntity.getBuyBounds());
+            }
+            boundsVO.setDesc(sb.toString());
+            saleVOS.add(boundsVO);
+        }
+
+        SkuLadderEntity skuLadderEntity = this.skuLadderDao.selectOne(new QueryWrapper<SkuLadderEntity>().eq("sku_id", skuId));
+        if (skuLadderEntity != null) {
+            SaleVO ladderVO = new SaleVO();
+            ladderVO.setType("Discount");
+            ladderVO.setDesc("Full"
+                    + skuLadderEntity.getFullCount()
+                    + "Piece, Discount"
+                    + skuLadderEntity.getDiscount().divide(new BigDecimal(10))
+                    + "Discount");
+            saleVOS.add(ladderVO);
+        }
+        SkuFullReductionEntity skuFullReductionEntity = this.skuFullReductionDao
+                .selectOne(new QueryWrapper<SkuFullReductionEntity>().eq("sku_id", skuId));
+        if (skuFullReductionEntity != null) {
+            SaleVO reductionVO = new SaleVO();
+            reductionVO.setType("Full reduction");
+            reductionVO.setDesc("Full reduction"
+                    + skuFullReductionEntity.getFullPrice()
+                    + "reduce"
+                    + skuFullReductionEntity.getReducePrice());
+            saleVOS.add(reductionVO);
+        }
+        return saleVOS;
     }
 
 }
