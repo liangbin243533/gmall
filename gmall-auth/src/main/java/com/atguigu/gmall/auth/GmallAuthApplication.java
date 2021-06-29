@@ -1,4 +1,4 @@
-package com.atguigu.gmall.ums;
+package com.atguigu.gmall.auth;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -10,12 +10,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableSwagger2
-@MapperScan("com.atguigu.gmall.ums.dao")
 @EnableFeignClients
-public class GmallUmsApplication {
+public class GmallAuthApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GmallUmsApplication.class, args);
+        SpringApplication.run(GmallAuthApplication.class, args);
     }
 
 }

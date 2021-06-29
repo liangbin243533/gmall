@@ -31,8 +31,14 @@ spring:
             - Path=/api/index/**
           filters:
             - RewritePath=/api(?<segment>/?.*), $\{segment}
+
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
   application:
     name: gamll-gateway
+
+gmall:
+  jwt:
+    pubKeyPath: \\Users\\chenliangbin\\Desktop\\GitHubProject\\RSA\\rsa.pub # 公钥地址
+    cookieName: GMALL_TOKEN
