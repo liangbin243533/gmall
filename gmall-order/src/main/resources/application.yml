@@ -1,0 +1,20 @@
+server:
+  port: 8093
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  redis:
+    host: 47.119.201.65
+  rabbitmq:
+    host: 47.119.201.65
+    virtual-host: /Liangbin Chen
+    username: Liangbin Chen
+    password: 243533Clb
+
+gmall:
+  jwt:
+    pubKeyPath: \\Users\\chenliangbin\\Desktop\\GitHubProject\\RSA\\rsa.pub # 公钥地址
+    cookieName: GMALL_TOKEN
+    expire: 3000 # 过期时间,单位分钟
