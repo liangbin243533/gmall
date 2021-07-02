@@ -15,7 +15,7 @@
     <description>Gmall repository management system</description>
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR11</spring-cloud.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <mysql.version>5.1.46</mysql.version>
     </properties>
     <dependencies>
@@ -23,6 +23,11 @@
             <groupId>com.atguigu</groupId>
             <artifactId>gmall-core</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.11.2</version>
         </dependency>
         <dependency>
             <groupId>com.atguigu</groupId>
