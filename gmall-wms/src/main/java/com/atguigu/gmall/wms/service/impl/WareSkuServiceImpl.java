@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.wms.vo.SkuLockVO;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity>
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     private static final String KEY_PREFIX = "stock:lock";
 
@@ -74,12 +78,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity>
         }
         String orderToken = skuLockVOS.get(0).getOrderToken();
         this.redisTemplate.opsForValue().set(KEY_PREFIX + orderToken, JSON.toJSONString(skuLockVOS));
-        /*// 一旦库存锁不住，回滚已锁的库存，并提示页面那些商品的库存没锁住
-        for (SkuLockVO skuLock : lockedSkus) {
-            wareSkuDao.unLockSku(skuLock);
-        }*/
 
-        /*List<Long> skuIds = notLockSkus.stream().map(skuLockVO -> skuLockVO.getSkuId()).collect(Collectors.toList());*/
+        // 锁定库存成功，发送延时消息，定时解锁库存
+        this.amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE", "stock.ttl", orderToken);
 
         return null;
     }
