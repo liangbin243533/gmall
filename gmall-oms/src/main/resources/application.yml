@@ -12,6 +12,11 @@ spring:
     password: root
   redis:
     host: 47.119.201.65
+  rabbitmq:
+    host: 47.119.201.65
+    virtual-host: /Liangbin Chen
+    username: Liangbin Chen
+    password: 243533Clb
 mybatis-plus:
   global-config:
     db-config:
