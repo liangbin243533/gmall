@@ -187,6 +187,7 @@ public class OrderService {
             SkuLockVO skuLockVO = new SkuLockVO();
             skuLockVO.setSkuId(orderItemVO.getSkuId());
             skuLockVO.setCount(orderItemVO.getCount());
+            skuLockVO.setOrderToken(orderToken);
             return skuLockVO;
         }).collect(Collectors.toList());
         Resp<Object> wareResp = this.wmsClient.checkAndLockStock(lockVOS);
@@ -200,6 +201,9 @@ public class OrderService {
             Resp<OrderEntity> orderEntityResp = this.omsClient.saveOrder(submitVO);
         } catch (Exception e) {
             e.printStackTrace();
+
+            //下单失败，发送消息给wms，解锁对应的库存
+            this.amqpTemplate.convertAndSend("GMALL-ORDER-EXCHANGE", "stock.unlock", orderToken);
             throw new OrderException("创建订单失败");
         }
 

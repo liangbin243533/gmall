@@ -11,7 +11,7 @@ public class SkuLockVO {
 
     private Boolean lock;
 
-   private Long wareSkuId; // wms_ware_sku表的主键,锁定库存的ID
+    private Long wareSkuId; // wms_ware_sku表的主键,锁定库存的ID
 
-    /* private String orderToken; // 那个订单（订单编号）*/
+    private String orderToken; // 那个订单（订单编号）
 }

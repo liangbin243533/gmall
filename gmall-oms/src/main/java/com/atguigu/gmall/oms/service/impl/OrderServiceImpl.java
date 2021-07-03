@@ -24,6 +24,7 @@ import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.gmall.oms.dao.OrderDao;
 import com.atguigu.gmall.oms.entity.OrderEntity;
 import com.atguigu.gmall.oms.service.OrderService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return new PageVo(page);
     }
 
+    @Transactional
     @Override
     public OrderEntity saveOrder(OrderSubmitVO submitVO) {
 
@@ -115,7 +117,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             this.orderItemDao.insert(itemEntity);
         });
 
-
+        int i = 100 / 0;
         return orderEntity;
     }
 

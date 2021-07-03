@@ -1,9 +1,11 @@
 package com.atguigu.gmall.wms.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.wms.vo.SkuLockVO;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import com.atguigu.core.bean.QueryCondition;
 import com.atguigu.gmall.wms.dao.WareSkuDao;
 import com.atguigu.gmall.wms.entity.WareSkuEntity;
 import com.atguigu.gmall.wms.service.WareSkuService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 
@@ -33,6 +36,11 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity>
     @Autowired
     private WareSkuDao wareSkuDao;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    private static final String KEY_PREFIX = "stock:lock";
+
     @Override
     public PageVo queryPage(QueryCondition params) {
         IPage<WareSkuEntity> page = this.page(
@@ -43,6 +51,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity>
         return new PageVo(page);
     }
 
+    @Transactional
     @Override
     public String checkAndLockStock(List<SkuLockVO> skuLockVOS) {
 
@@ -63,6 +72,8 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity>
             List<Long> skuIds = unLockSku.stream().map(SkuLockVO::getSkuId).collect(Collectors.toList());
             return "下单失败,库存不足" + skuIds.toString();
         }
+        String orderToken = skuLockVOS.get(0).getOrderToken();
+        this.redisTemplate.opsForValue().set(KEY_PREFIX + orderToken, JSON.toJSONString(skuLockVOS));
         /*// 一旦库存锁不住，回滚已锁的库存，并提示页面那些商品的库存没锁住
         for (SkuLockVO skuLock : lockedSkus) {
             wareSkuDao.unLockSku(skuLock);
