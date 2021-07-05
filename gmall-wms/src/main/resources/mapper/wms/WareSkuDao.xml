@@ -25,4 +25,10 @@
         WHERE id = #{wareSkuId}
     </update>
 
+    <update id="minusStore">
+        UPDATE wms_ware_sku SET stock_locked = stock_locked - #{count}, stock = stock - #{count}
+        WHERE id = #{wareSkuId}
+    </update>
+
+
 </mapper>
